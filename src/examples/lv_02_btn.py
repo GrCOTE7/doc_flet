@@ -23,6 +23,3 @@ def main(page: ft.Page, name: str):
 
     page.add(ft.Text(name, size=18, color=ft.Colors.GREEN_ACCENT_400))
     print(datetime.datetime.now().strftime("%H:%M:%S"), ">")
-
-
-# ft.run(main)

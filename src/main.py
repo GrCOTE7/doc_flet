@@ -11,7 +11,7 @@ def main(page: ft.Page):
     page.title = "Flet Doc officielle | "+ name
 
     page.add(ft.Text("Ready.", size=28))
-    print("oki")
+    print(datetime.datetime.now().strftime('%H:%M:%S'), '>')
 
 
 ft.run(main)

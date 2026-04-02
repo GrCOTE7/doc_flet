@@ -1,17 +1,14 @@
 import flet as ft
-import tools.screen_utils as screen_utils
-import datetime
+from tools.screen_utils import gc7_rules as gc7
+from examples.lv_02_btn import main as btn2
 
-name = "Ready"
+name: str = "Ready"
+
 
 def main(page: ft.Page):
+    gc7(page, name)
 
-    screen_utils.configure_window(page)
-    page.theme_mode = ft.ThemeMode.DARK  # Comment to light
-    page.title = "Flet Doc officielle | "+ name
-
-    page.add(ft.Text("Ready.", size=28))
-    print(datetime.datetime.now().strftime('%H:%M:%S'), '>')
+    btn2(page, name)
 
 
 ft.run(main)

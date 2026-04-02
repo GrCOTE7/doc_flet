@@ -105,3 +105,9 @@ def make_zoomable_view(
         animation_ms=animation_ms,
     )
     return controller.view
+
+
+def gc7_rules(page: ft.Page, name: str):
+    configure_window(page)
+    # page.theme_mode = ft.ThemeMode.LIGHT  # Comment to dark
+    page.title = "Flet Doc Officielle | " + name

@@ -1,10 +1,6 @@
-# from dataclasses import field
-
+import flet as ft
 from asyncio.windows_events import INFINITE
 from ctypes import alignment
-
-from fastapi import background
-import flet as ft
 
 
 def todo_list(page: ft.Page):

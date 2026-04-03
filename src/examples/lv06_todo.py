@@ -50,12 +50,19 @@ class TodoApp(ft.Column):
             ft.Row(
                 controls=[
                     self.new_task,
-                    ft.FloatingActionButton(
+                    ft.IconButton(
                         icon=ft.Icons.ADD,
+                        icon_color=ft.Colors.GREEN_ACCENT_400,
+                        icon_size=28,
+                        width=55,
+                        height=55,
                         on_click=self.add_clicked,
-                        bgcolor=ft.Colors.GREEN_ACCENT_700,
-                        scale=0.9,
                         mouse_cursor=ft.MouseCursor.CLICK,
+                        style=ft.ButtonStyle(
+                            bgcolor=ft.Colors.BLACK,
+                            side=ft.BorderSide(1, ft.Colors.GREEN_ACCENT_400),
+                            shape=ft.RoundedRectangleBorder(radius=8),
+                        ),
                     ),
                 ],
             ),

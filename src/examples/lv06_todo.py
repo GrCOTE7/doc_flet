@@ -10,7 +10,6 @@ class TodoApp(ft.Column):
     _DISABLED_COLOR = ft.Colors.GREY_600
 
     def init(self):
-
         self._width = INFINITE  # 350
 
         # --- Titre centré ---
@@ -65,7 +64,11 @@ class TodoApp(ft.Column):
             ),
         )
 
-        self.tasks_view = ft.Column()
+        self.tasks_view = ft.Column(
+            controls=[
+                ft.Checkbox(label="Exemple: 1 première tâche"),
+            ]
+        )
 
         self.controls = [
             self.title,

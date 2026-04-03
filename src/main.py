@@ -13,13 +13,22 @@ def main(page: ft.Page):
 
     # from devs.lv01_icons_list import icons_list as icons_list
     # icons_list(page) # 3 versions dispos
-    
+
     # # ❌ Finir game NbreX
     # from devs.lv02_nbre_x import game as game
     # game(page)
-    
-    from examples.lv06_todo import todo_list as todo
-    todo(page)
+
+    # from examples.lv06_todo import todo_list as todo
+    # todo(page)
+
+    if not page.controls:
+        page.add(
+            ft.Text(
+                "No content.",
+                size=30,
+                color=ft.Colors.RED_ACCENT_400,
+            )
+        )
 
 
 if __name__ == "__main__":

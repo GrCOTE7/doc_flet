@@ -1,5 +1,6 @@
 # from dataclasses import field
 
+from asyncio.windows_events import INFINITE
 from ctypes import alignment
 
 from fastapi import background
@@ -7,9 +8,10 @@ import flet as ft
 
 
 def todo_list(page: ft.Page):
-    _WIDTH = 350
+    # _WIDTH = 350
+    _WIDTH = INFINITE
     page.title = "Todo List"
-    page.bgcolor = '#333333'
+    page.bgcolor = "#333333"
 
     # --- Titre centré ---
     title = ft.Container(
@@ -46,11 +48,11 @@ def todo_list(page: ft.Page):
         bgcolor=ft.Colors.BLACK,
         border_radius=ft.BorderRadius.all(7),
         border_color=ft.Colors.GREEN_ACCENT_400,
-        expand=True, # ❌  comprendre expand
+        expand=True,  # ❌  comprendre expand
     )
-    
+
     tasks_view = ft.Column()
-    
+
     view = ft.Column(
         width=_WIDTH,
         controls=[

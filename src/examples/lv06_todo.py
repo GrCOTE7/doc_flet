@@ -16,9 +16,10 @@ def todo_list(page: ft.Page):
     # --- Titre centré ---
     title = ft.Container(
         width=_WIDTH,
-        margin=ft.Margin.only(top=20),
+        padding=ft.Padding.only(top=10, bottom=10),
+        margin=ft.Margin.only(top=25),
+        border=ft.Border.all(1, ft.Colors.GREEN_ACCENT_400),
         bgcolor=ft.Colors.BLACK,
-        padding=ft.Padding.only(top=20, bottom=20),
         border_radius=ft.BorderRadius.all(12),
         content=ft.Row(
             controls=[

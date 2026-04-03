@@ -42,6 +42,24 @@ class TodoApp(ft.Column):
             border_color=ft.Colors.GREEN_ACCENT_400,
             expand=True,
             mouse_cursor=ft.MouseCursor.CLICK,
+            on_change=self.task_changed,
+        )
+
+        # --- Bouton ajouter (désactivé par défaut) ---
+        self.add_btn = ft.IconButton(
+            icon=ft.Icons.ADD,
+            icon_color=ft.Colors.GREY_600,
+            icon_size=28,
+            width=55,
+            height=55,
+            disabled=True,
+            mouse_cursor=ft.MouseCursor.BASIC,
+            on_click=self.add_clicked,
+            style=ft.ButtonStyle(
+                bgcolor=ft.Colors.BLACK,
+                side=ft.BorderSide(1, ft.Colors.GREY_600),
+                shape=ft.RoundedRectangleBorder(radius=8),
+            ),
         )
 
         self.tasks_view = ft.Column()
@@ -51,29 +69,43 @@ class TodoApp(ft.Column):
             ft.Row(
                 controls=[
                     self.new_task,
-                    ft.IconButton(
-                        icon=ft.Icons.ADD,
-                        icon_color=ft.Colors.GREEN_ACCENT_400,
-                        icon_size=28,
-                        width=55,
-                        height=55,
-                        on_click=self.add_clicked,
-                        mouse_cursor=ft.MouseCursor.CLICK,
-                        style=ft.ButtonStyle(
-                            bgcolor=ft.Colors.BLACK,
-                            side=ft.BorderSide(1, ft.Colors.GREEN_ACCENT_400),
-                            shape=ft.RoundedRectangleBorder(radius=8),
-                        ),
-                    ),
+                    self.add_btn,
                 ],
             ),
             self.tasks_view,
         ]
 
+    # --- Mise à jour du bouton selon le champ ---
+    def task_changed(self, e):
+        has_text = bool(self.new_task.value)
+        self.add_btn.disabled = not has_text
+        self.add_btn.mouse_cursor = (
+            ft.MouseCursor.CLICK if has_text else ft.MouseCursor.BASIC
+        )
+        self.add_btn.icon_color = (
+            ft.Colors.GREEN_ACCENT_400 if has_text else ft.Colors.GREY_600
+        )
+        self.add_btn.style = ft.ButtonStyle(
+            bgcolor=ft.Colors.BLACK,
+            side=ft.BorderSide(
+                1, ft.Colors.GREEN_ACCENT_400 if has_text else ft.Colors.GREY_600
+            ),
+            shape=ft.RoundedRectangleBorder(radius=8),
+        )
+        self.add_btn.update()
+
     # --- Action bouton ---
     def add_clicked(self, e):
         self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
         self.new_task.value = ""
+        self.add_btn.disabled = True
+        self.add_btn.mouse_cursor = ft.MouseCursor.BASIC
+        self.add_btn.icon_color = ft.Colors.GREY_600
+        self.add_btn.style = ft.ButtonStyle(
+            bgcolor=ft.Colors.BLACK,
+            side=ft.BorderSide(1, ft.Colors.GREY_600),
+            shape=ft.RoundedRectangleBorder(radius=8),
+        )
         self.update()
 
 

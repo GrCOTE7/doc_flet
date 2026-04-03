@@ -33,8 +33,9 @@ class TodoApp(ft.Column):
 
         # --- Champ de saisie ---
         self.new_task = ft.TextField(
-            text_size=20,
-            text_style=ft.TextStyle(italic=True),
+            text_size=18,
+            hint_style=ft.TextStyle(italic=True, color=ft.Colors.GREY),
+            color=ft.Colors.WHITE,
             hint_text="What needs to be done?",
             bgcolor=ft.Colors.BLACK,
             border_radius=ft.BorderRadius.all(7),

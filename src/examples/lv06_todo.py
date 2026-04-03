@@ -3,73 +3,89 @@ from asyncio.windows_events import INFINITE
 from ctypes import alignment
 
 
-def todo_list(page: ft.Page):
-    # _WIDTH = 350
-    _WIDTH = INFINITE
-    page.title = "Todo List"
-    page.bgcolor = "#333333"
+@ft.control
+class TodoApp(ft.Column):
 
-    # --- Titre centré ---
-    title = ft.Container(
-        width=_WIDTH,
-        padding=ft.Padding.only(top=10, bottom=10),
-        margin=ft.Margin.only(top=25),
-        border=ft.Border.all(1, ft.Colors.GREEN_ACCENT_400),
-        bgcolor=ft.Colors.BLACK,
-        border_radius=ft.BorderRadius.all(12),
-        content=ft.Row(
-            controls=[
-                ft.Text(
-                    "GC7 Todo List",
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.GREEN_ACCENT_400,
-                    size=32,
-                )
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-        ),
-    )
-    page.add(title)
+    def init(self):
 
-    # --- Action bouton ---
-    def add_clicked(e):
-        tasks_view.controls.append(ft.Checkbox(label=new_task.value))
-        new_task.value = ""
-        view.update()
+        self._width = INFINITE  # 350
 
-    # --- Champ de saisie ---
-    new_task = ft.TextField(
-        text_size=18,
-        text_style=ft.TextStyle(italic=True),
-        hint_text="What needs to be done?",
-        bgcolor=ft.Colors.BLACK,
-        border_radius=ft.BorderRadius.all(7),
-        border_color=ft.Colors.GREEN_ACCENT_400,
-        expand=True,  # ❌  comprendre expand
-    )
+        # --- Titre centré ---
+        self.title = ft.Container(
+            width=self._width,
+            padding=ft.Padding.only(top=10, bottom=10),
+            margin=ft.Margin.only(top=25),
+            border=ft.Border.all(1, ft.Colors.GREEN_ACCENT_400),
+            bgcolor=ft.Colors.BLACK,
+            border_radius=ft.BorderRadius.all(12),
+            content=ft.Row(
+                controls=[
+                    ft.Text(
+                        "GC7 Todo List",
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREEN_ACCENT_400,
+                        size=32,
+                    )
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+            ),
+        )
 
-    tasks_view = ft.Column()
+        # --- Champ de saisie ---
+        self.new_task = ft.TextField(
+            text_size=20,
+            text_style=ft.TextStyle(italic=True),
+            hint_text="What needs to be done?",
+            bgcolor=ft.Colors.BLACK,
+            border_radius=ft.BorderRadius.all(7),
+            border_color=ft.Colors.GREEN_ACCENT_400,
+            expand=True,
+            mouse_cursor=ft.MouseCursor.CLICK,
+        )
 
-    view = ft.Column(
-        width=_WIDTH,
-        controls=[
+        self.tasks_view = ft.Column()
+
+        self.controls = [
+            self.title,
             ft.Row(
                 controls=[
-                    new_task,
+                    self.new_task,
                     ft.FloatingActionButton(
                         icon=ft.Icons.ADD,
-                        on_click=add_clicked,
-                        bgcolor=ft.Colors.GREEN_ACCENT_400,
+                        on_click=self.add_clicked,
+                        bgcolor=ft.Colors.GREEN_ACCENT_700,
                         scale=0.9,
+                        mouse_cursor=ft.MouseCursor.CLICK,
                     ),
                 ],
             ),
-            tasks_view,
-        ],
-    )
+            self.tasks_view,
+        ]
 
+    # --- Action bouton ---
+    def add_clicked(self, e):
+        self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
+        self.new_task.value = ""
+        self.update()
+
+
+def todo_list(page: ft.Page):
+    page.title = "To-Do App"
+
+    page.bgcolor = "#333333"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.add(view)
+    page.update()
+
+    # create application instance
+    todo = TodoApp()
+    # add application's root control to the page
+    page.add(todo)
+
+    # # create application instance
+    # app1 = TodoApp()
+    # app2 = TodoApp()
+    # # add application's root control to the page
+    # page.add(app1, app2)
 
 
 if __name__ == "__main__":

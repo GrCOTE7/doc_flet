@@ -45,6 +45,8 @@ class TodoApp(ft.Column):
             expand=True,
             mouse_cursor=ft.MouseCursor.CLICK,
             on_change=self.task_changed,
+            on_submit=self.add_clicked,
+            autofocus=True,
         )
 
         # --- Bouton ajouter (désactivé par défaut) ---
@@ -66,7 +68,7 @@ class TodoApp(ft.Column):
 
         self.tasks_view = ft.Column(
             controls=[
-                ft.Checkbox(label="Exemple: 1 première tâche"),
+                ft.Checkbox(label="Exemple: 1e première tâche"),
             ]
         )
 
@@ -106,7 +108,7 @@ class TodoApp(ft.Column):
         # print("TodoApp tasks_view :", [task.label for task in self.tasks_view.controls])
 
     # --- Action bouton ---
-    def add_clicked(self, e):
+    async def add_clicked(self, e):
         self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
         self.tasks_view.update()
         self.new_task.value = ""
@@ -119,6 +121,7 @@ class TodoApp(ft.Column):
             shape=ft.RoundedRectangleBorder(radius=8),
         )
         self.show_tasks()
+        await self.new_task.focus()
         self.update()
 
     def show_tasks(self):

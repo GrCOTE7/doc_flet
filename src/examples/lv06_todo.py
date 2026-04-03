@@ -81,6 +81,9 @@ class TodoApp(ft.Column):
             self.tasks_view,
         ]
 
+        # Afficher les tâches au démarrage
+        self.show_tasks()
+
     # --- Mise à jour du bouton selon le champ ---
     def task_changed(self, e):
         has_text = bool(self.new_task.value)
@@ -100,9 +103,12 @@ class TodoApp(ft.Column):
         )
         self.add_btn.update()
 
+        # print("TodoApp tasks_view :", [task.label for task in self.tasks_view.controls])
+
     # --- Action bouton ---
     def add_clicked(self, e):
         self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
+        self.tasks_view.update()
         self.new_task.value = ""
         self.add_btn.disabled = True
         self.add_btn.mouse_cursor = ft.MouseCursor.BASIC
@@ -112,7 +118,14 @@ class TodoApp(ft.Column):
             side=ft.BorderSide(1, self._DISABLED_COLOR),
             shape=ft.RoundedRectangleBorder(radius=8),
         )
+        self.show_tasks()
         self.update()
+
+    def show_tasks(self):
+        print(f"\n📋 Tâches ({len(self.tasks_view.controls)}):")
+        for i, task in enumerate(self.tasks_view.controls, 1):
+            label = getattr(task, "label", "?")
+            print(f"  {i}. {label}")
 
 
 def todo_list(page: ft.Page):

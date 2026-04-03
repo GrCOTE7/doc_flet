@@ -35,16 +35,16 @@ def todo_list(page: ft.Page):
     )
     page.add(title)
 
-    # --- Champ de saisie ---
-    new_task = ft.TextField(hint_text="What needs to be done?")
-
     # --- Action bouton ---
     def add_clicked(e):
         tasks_view.controls.append(ft.Checkbox(label=new_task.value))
         new_task.value = ""
         view.update()
 
+    # --- Champ de saisie ---
     new_task = ft.TextField(
+        text_size=18,
+        text_style=ft.TextStyle(italic=True),
         hint_text="What needs to be done?",
         bgcolor=ft.Colors.BLACK,
         border_radius=ft.BorderRadius.all(7),

@@ -6,6 +6,9 @@ from ctypes import alignment
 @ft.control
 class TodoApp(ft.Column):
 
+    _PRIMLARY_COLOR = ft.Colors.GREEN_ACCENT_400
+    _DISABLED_COLOR = ft.Colors.GREY_600
+
     def init(self):
 
         self._width = INFINITE  # 350
@@ -15,7 +18,7 @@ class TodoApp(ft.Column):
             width=self._width,
             padding=ft.Padding.only(top=10, bottom=10),
             margin=ft.Margin.only(top=25),
-            border=ft.Border.all(1, ft.Colors.GREEN_ACCENT_400),
+            border=ft.Border.all(1, self._PRIMLARY_COLOR),
             bgcolor=ft.Colors.BLACK,
             border_radius=ft.BorderRadius.all(12),
             content=ft.Row(
@@ -23,7 +26,7 @@ class TodoApp(ft.Column):
                     ft.Text(
                         "GC7 Todo List",
                         weight=ft.FontWeight.BOLD,
-                        color=ft.Colors.GREEN_ACCENT_400,
+                        color=self._PRIMLARY_COLOR,
                         size=32,
                     )
                 ],
@@ -34,12 +37,12 @@ class TodoApp(ft.Column):
         # --- Champ de saisie ---
         self.new_task = ft.TextField(
             text_size=18,
-            hint_style=ft.TextStyle(italic=True, color=ft.Colors.GREY),
+            hint_style=ft.TextStyle(italic=True, color=self._DISABLED_COLOR),
             color=ft.Colors.WHITE,
             hint_text="What needs to be done?",
             bgcolor=ft.Colors.BLACK,
             border_radius=ft.BorderRadius.all(7),
-            border_color=ft.Colors.GREEN_ACCENT_400,
+            border_color=self._PRIMLARY_COLOR,
             expand=True,
             mouse_cursor=ft.MouseCursor.CLICK,
             on_change=self.task_changed,
@@ -48,7 +51,7 @@ class TodoApp(ft.Column):
         # --- Bouton ajouter (désactivé par défaut) ---
         self.add_btn = ft.IconButton(
             icon=ft.Icons.ADD,
-            icon_color=ft.Colors.GREY_600,
+            icon_color=self._DISABLED_COLOR,
             icon_size=28,
             width=55,
             height=55,
@@ -57,7 +60,7 @@ class TodoApp(ft.Column):
             on_click=self.add_clicked,
             style=ft.ButtonStyle(
                 bgcolor=ft.Colors.BLACK,
-                side=ft.BorderSide(1, ft.Colors.GREY_600),
+                side=ft.BorderSide(1, self._DISABLED_COLOR),
                 shape=ft.RoundedRectangleBorder(radius=8),
             ),
         )
@@ -83,12 +86,12 @@ class TodoApp(ft.Column):
             ft.MouseCursor.CLICK if has_text else ft.MouseCursor.BASIC
         )
         self.add_btn.icon_color = (
-            ft.Colors.GREEN_ACCENT_400 if has_text else ft.Colors.GREY_600
+            self._PRIMLARY_COLOR if has_text else self._DISABLED_COLOR
         )
         self.add_btn.style = ft.ButtonStyle(
             bgcolor=ft.Colors.BLACK,
             side=ft.BorderSide(
-                1, ft.Colors.GREEN_ACCENT_400 if has_text else ft.Colors.GREY_600
+                1, self._PRIMLARY_COLOR if has_text else self._DISABLED_COLOR
             ),
             shape=ft.RoundedRectangleBorder(radius=8),
         )
@@ -100,10 +103,10 @@ class TodoApp(ft.Column):
         self.new_task.value = ""
         self.add_btn.disabled = True
         self.add_btn.mouse_cursor = ft.MouseCursor.BASIC
-        self.add_btn.icon_color = ft.Colors.GREY_600
+        self.add_btn.icon_color = self._DISABLED_COLOR
         self.add_btn.style = ft.ButtonStyle(
             bgcolor=ft.Colors.BLACK,
-            side=ft.BorderSide(1, ft.Colors.GREY_600),
+            side=ft.BorderSide(1, self._DISABLED_COLOR),
             shape=ft.RoundedRectangleBorder(radius=8),
         )
         self.update()

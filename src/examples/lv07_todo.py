@@ -1,4 +1,78 @@
+from dataclasses import field
+from typing import Callable
 import flet as ft
+import asyncio
+
+@ft.control
+class Task(ft.Column):
+
+    task_name: str = ""
+    on_task_delete: Callable[["Task"], None] = field(default=lambda task: None)
+
+    def init(self):
+        self.display_task = ft.Checkbox(
+            value=False, label=self.task_name, label_style=ft.TextStyle(size=14)
+        )
+        self.edit_name = ft.TextField(expand=1)
+        self.display_view = ft.Row(
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                self.display_task,
+                ft.Row(
+                    spacing=0,
+                    controls=[
+                        ft.IconButton(
+                            icon=ft.Icons.EDIT,
+                            on_click=self.edit_clicked,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.Colors.TRANSPARENT,
+                                shape=ft.CircleBorder(),
+                            ),
+                        ),
+                        ft.IconButton(
+                            icon=ft.Icons.DELETE,
+                            on_click=self.delete_clicked,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.Colors.TRANSPARENT,
+                                shape=ft.CircleBorder(),
+                            ),
+                        ),
+                    ],
+                ),
+            ],
+        )
+        self.edit_view = ft.Row(
+            visible=False,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                self.edit_name,
+                ft.IconButton(
+                    icon=ft.Icons.DONE_OUTLINE_OUTLINED,
+                    icon_color=ft.Colors.GREEN,
+                    tooltip="Update To-Do",
+                    on_click=self.save_clicked,
+                ),
+            ],
+        )
+        self.controls = [self.display_view, self.edit_view]
+
+    def edit_clicked(self, e):
+        # Checkbox.label peut être str | Control | None ; TextField.value attend str.
+        self.edit_name.value = str(self.display_task.label or "")
+        self.display_view.visible = False
+        self.edit_view.visible = True
+        self.update()
+
+    def save_clicked(self, e):
+        self.display_task.label = self.edit_name.value
+        self.display_view.visible = True
+        self.edit_view.visible = False
+        self.update()
+
+    def delete_clicked(self, e):
+        self.on_task_delete(self)
 
 
 @ft.control
@@ -61,10 +135,13 @@ class TodoApp(ft.Column):
             ),
         )
 
+        task_sample = ft.TextStyle(size=14, color=ft.Colors.WHITE)
         self.tasks_view = ft.Column(
             controls=[
-                ft.Checkbox(label="Exemple: 1e première tâche"),
-            ]
+                ft.Checkbox(label="Une première tâche", label_style=task_sample),
+                ft.Checkbox(label="Une seconde tâche", label_style=task_sample),
+            ],
+            spacing=-5,
         )
 
         self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -95,9 +172,7 @@ class TodoApp(ft.Column):
             ft.Row(
                 controls=[self.new_task, self.add_btn],
             ),
-            ft.Container(
-                content=self.tasks_view,
-            ),
+            ft.Container(content=self.tasks_view),
         ]
 
         self.show_cli_tasks()
@@ -125,7 +200,12 @@ class TodoApp(ft.Column):
 
     # --- Action bouton ---
     async def add_clicked(self, e):
-        self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
+        self.tasks_view.controls.append(
+            ft.Checkbox(
+                label=self.new_task.value,
+                label_style=ft.TextStyle(size=14, color=ft.Colors.WHITE),
+            )
+        )
         self.tasks_view.update()
         self.new_task.value = ""
         self.add_btn.disabled = True
@@ -147,10 +227,14 @@ class TodoApp(ft.Column):
             print(f"   {i}. {label}")
 
 
-def todo_list(page: ft.Page):
-    page.title = "To-Do App"
+async def todo_list(page: ft.Page):
+    print("\nTodo 7...")
+    # await asyncio.sleep(1)
+    
+    
+    page.title = "To-Do App 7"
 
-    page.bgcolor = "#ff0000"
+    page.bgcolor = "#333333"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     page.update()

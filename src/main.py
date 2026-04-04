@@ -2,10 +2,11 @@ from re import A
 
 import flet as ft
 import datetime
+import asyncio
 from tools.screen_utils import gc7_rules as gc7
 
 
-def main(page: ft.Page):
+async def main(page: ft.Page):
     # gc7(page, 'LIGHT')
     gc7(page)
 
@@ -20,12 +21,28 @@ def main(page: ft.Page):
     # from devs.lv02_nbre_x import game as game
     # game(page)
 
-    from examples.lv06_todo import todo_list as todo
-    todo(page)
-    
+    # ❌  GC7 styled (colors and effects (disable +)
+    from examples.lv07_todo import todo_list as todo7
+
+    # await todo7(page)
+
+    from examples.lv06_todo_simple import todo_list as todo6
+
+    # await todo6(page)
+
+    async def fini():
+        print(datetime.datetime.now().strftime("%H:%M:%S"), "> Todos 6 & 7 Ready.\n")
+
+    async def async_fctns():
+        print(datetime.datetime.now().strftime("%H:%M:%S"), "> async_fctns")
+        await asyncio.gather(todo6(page), todo7(page))
+        await fini()
+
+    await async_fctns()
+
     # from devs.lv02_blocs import blocs as dev
     # dev(page)
-    
+
     # from devs.lv00_dev import dev as dev
     # dev(page)
 

@@ -1,6 +1,4 @@
 import flet as ft
-from asyncio.windows_events import INFINITE
-from ctypes import alignment
 
 
 @ft.control
@@ -96,7 +94,7 @@ class TodoApp(ft.Column):
             ft.Row(
                 controls=[self.new_task, self.add_btn],
             ),
-            self.tasks_view
+            self.tasks_view,
         ]
 
         self.show_cli_tasks()
@@ -149,7 +147,7 @@ class TodoApp(ft.Column):
 def todo_list(page: ft.Page):
     page.title = "To-Do App"
 
-    page.bgcolor = "#333333"
+    page.bgcolor = "#ff0000"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 

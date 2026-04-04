@@ -1,6 +1,6 @@
 
 [project]
-name = "etude"
+name = "Dev"
 version = "0.0.1"
 description = "Sport Timer"
 readme = "README.md"
@@ -14,7 +14,7 @@ dev = ["flet[all]"]
 
 [tool.flet]
 org = "com.mycompany"
-product = "Sport"
+product = "Flet"
 company = "COTE"
 copyright = "Copyright (C) 2026 by GrCOTE7"
 compile.app = true

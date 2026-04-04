@@ -196,8 +196,6 @@ class TodoApp(ft.Column):
         )
         self.add_btn.update()
 
-        # print("TodoApp tasks_view :", [task.label for task in self.tasks_view.controls])
-
     # --- Action bouton ---
     def add_clicked(self, e):
         self.tasks_view.controls.append(
@@ -242,8 +240,7 @@ def todo_list(page: ft.Page):
         print("\nSimu saisie...")
         todo.new_task.value = "Tâche simulée"
         todo.task_changed(None)  # Met à jour le bouton
-
-        todo.add_clicked(None)
+        todo.add_clicked(None)  # click + btn !
 
         # todo.add_btn.clicked()  # Simule le clic pour ajouter la tâche
 

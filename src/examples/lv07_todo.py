@@ -3,6 +3,7 @@ from typing import Callable
 import flet as ft
 import asyncio
 
+
 @ft.control
 class Task(ft.Column):
 
@@ -138,8 +139,7 @@ class TodoApp(ft.Column):
         task_sample = ft.TextStyle(size=14, color=ft.Colors.WHITE)
         self.tasks_view = ft.Column(
             controls=[
-                ft.Checkbox(label="Une première tâche", label_style=task_sample),
-                ft.Checkbox(label="Une seconde tâche", label_style=task_sample),
+                ft.Checkbox(label="Une tâche", label_style=task_sample),
             ],
             spacing=-5,
         )
@@ -229,9 +229,8 @@ class TodoApp(ft.Column):
 
 async def todo_list(page: ft.Page):
     print("\nTodo 7...")
-    await asyncio.sleep(3)
-    
-    
+    await asyncio.sleep(0)
+
     page.title = "To-Do App 7"
 
     page.bgcolor = "#333333"
@@ -249,6 +248,18 @@ async def todo_list(page: ft.Page):
     # app2 = TodoApp()
     # # add application's root control to the page
     # page.add(app1, app2)
+
+    def simu_saisie():
+        print("\nSimu saisie...")
+        todo.new_task.value = "Tâche simulée"
+        todo.task_changed(None)  # Met à jour le bouton
+        # todo.add_clicked(None)  # click + btn !
+
+        # todo.add_btn.clicked()  # Simule le clic pour ajouter la tâche
+
+        page.update()
+
+    simu_saisie()
 
 
 if __name__ == "__main__":

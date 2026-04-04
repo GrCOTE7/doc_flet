@@ -55,7 +55,7 @@ class Task(ft.Column):
         self.controls = [self.display_view, self.edit_view]
 
     def edit_clicked(self, e):
-        self.edit_name.value = self.display_task.label
+        self.edit_name.value = str(self.display_task.label)
         self.display_view.visible = False
         self.edit_view.visible = True
         self.update()
@@ -79,7 +79,9 @@ class TodoApp(ft.Column):
             expand=True,
             text_style=ft.TextStyle(size=13),
         )
-        self.tasks = ft.Column()
+        self.tasks = ft.Column(
+            controls=[Task(task_name="Example Task", on_task_delete=self.task_delete)]
+        )
         self.width = 600
         self.controls = [
             ft.Row(
@@ -107,7 +109,7 @@ class TodoApp(ft.Column):
 async def todo_list(page: ft.Page):
     print("\nTodo 6...")
     is_tty = sys.stdout.isatty()
-    delayed = 0  # ❌ 30
+    delayed = 1  # ❌ 30
 
     countdown_text = ft.Text(
         f"Todo 6 dans {delayed}s...", size=16, color=ft.Colors.ORANGE_300
@@ -142,6 +144,7 @@ async def todo_list(page: ft.Page):
 
     # add application's root control to the page
     page.add(app)
+
     print("\nTodo 6 OK.\n")
 
 

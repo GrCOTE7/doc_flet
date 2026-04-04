@@ -1,7 +1,7 @@
 from re import A
 
 import flet as ft
-import datetime
+import datetime, time
 import asyncio
 from tools.screen_utils import gc7_rules as gc7
 
@@ -33,15 +33,15 @@ async def main(page: ft.Page):
 
         async def async_fctns():
             print(datetime.datetime.now().strftime("%H:%M:%S"), "> async_fctns")
-            # await asyncio.gather(todo6(page), todo7(page)) # ❌ to ar
-            await asyncio.gather(todo6(page))
+            # await asyncio.gather(todo6(page), todo7(page)) # ❌  default
+            await asyncio.gather(todo7(page), todo6(page))
+            # await asyncio.gather(todo6(page))
             await fini()
 
         await async_fctns()
-
-    from examples.lv08_todo import todo_list as todo
-
-    todo(page)
+    time.sleep(1)
+    from examples.lv08_todo import todo_list as todo8
+    todo8(page)
 
     # from devs.lv02_blocs import blocs as dev
     # dev(page)

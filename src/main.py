@@ -23,6 +23,9 @@ def main(page: ft.Page):
     # from examples.lv06_todo import todo_list as todo
     # todo(page)
     
+    # from devs.lv02_blocs import blocs as dev
+    # dev(page)
+    
     from devs.lv00_dev import dev as dev
     dev(page)
 

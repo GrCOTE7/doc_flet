@@ -68,7 +68,8 @@ class TodoApp(ft.Column):
         )
 
         self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        self.spacing = 15
+        # Espacement de base entre sections principales.
+        self.spacing = 7
 
         # Si on veut contrôler la largeur du bloc
         # self.controls = [
@@ -94,7 +95,9 @@ class TodoApp(ft.Column):
             ft.Row(
                 controls=[self.new_task, self.add_btn],
             ),
-            self.tasks_view,
+            ft.Container(
+                content=self.tasks_view,
+            ),
         ]
 
         self.show_cli_tasks()
@@ -149,6 +152,7 @@ def todo_list(page: ft.Page):
 
     page.bgcolor = "#ff0000"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+
     page.update()
 
     # create application instance

@@ -111,3 +111,13 @@ def gc7_rules(page: ft.Page, mode: str = "DARK", name: str = "Ready"):
     configure_window(page)
     page.theme_mode = ft.ThemeMode.LIGHT if mode == "LIGHT" else ft.ThemeMode.DARK
     page.title = f"GC7 - {name}"
+
+    if page.platform is not None and page.platform.is_mobile():
+        # Respecte la safe area : status bar, encoche, barre de navigation système
+        m = page.media
+        page.padding = ft.Padding(
+            top=m.padding.top + 5,
+            bottom=m.padding.bottom + 5,
+            left=m.padding.left + 10,
+            right=m.padding.right + 10,
+        )

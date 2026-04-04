@@ -20,8 +20,11 @@ def main(page: ft.Page):
     # from devs.lv02_nbre_x import game as game
     # game(page)
 
-    from examples.lv06_todo import todo_list as todo
-    todo(page)
+    # from examples.lv06_todo import todo_list as todo
+    # todo(page)
+    
+    from devs.lv00_dev import dev as dev
+    dev(page)
 
     if not page.controls:
         page.add(

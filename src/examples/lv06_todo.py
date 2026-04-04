@@ -8,15 +8,13 @@ class TodoApp(ft.Column):
 
     _PRIMLARY_COLOR = ft.Colors.GREEN_ACCENT_400
     _DISABLED_COLOR = ft.Colors.GREY_600
+    # _WIDTH = INFINITE  # 350
 
     def init(self):
-        self._width = INFINITE  # 350
 
         # --- Titre centré ---
         self.title = ft.Container(
-            width=self._width,
-            padding=ft.Padding.only(top=10, bottom=10),
-            margin=ft.Margin.only(top=25),
+            padding=ft.Padding.symmetric(vertical=4, horizontal=12),
             border=ft.Border.all(1, self._PRIMLARY_COLOR),
             bgcolor=ft.Colors.BLACK,
             border_radius=ft.BorderRadius.all(12),
@@ -26,7 +24,7 @@ class TodoApp(ft.Column):
                         "GC7 Todo List",
                         weight=ft.FontWeight.BOLD,
                         color=self._PRIMLARY_COLOR,
-                        size=32,
+                        size=24,
                     )
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -48,14 +46,13 @@ class TodoApp(ft.Column):
             on_submit=self.add_clicked,
             autofocus=True,
         )
-
         # --- Bouton ajouter (désactivé par défaut) ---
         self.add_btn = ft.IconButton(
             icon=ft.Icons.ADD,
             icon_color=self._DISABLED_COLOR,
             icon_size=28,
-            width=55,
-            height=55,
+            width=52,
+            height=52,
             disabled=True,
             mouse_cursor=ft.MouseCursor.BASIC,
             on_click=self.add_clicked,
@@ -72,19 +69,37 @@ class TodoApp(ft.Column):
             ]
         )
 
+        self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        self.spacing = 15
+
+        # Si on veut contrôler la largeur du bloc
+        # self.controls = [
+        #     ft.Container(
+        #         width=self._WIDTH,
+        #         content=ft.Column(
+        #             controls=[
+        #                 self.title,
+        #                 ft.Row(
+        #                     controls=[self.new_task, self.add_btn],
+        #                     alignment=ft.MainAxisAlignment.CENTER,
+        #                 ),
+        #                 self.tasks_view,
+        #             ],
+        #             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        #             spacing=15,
+        #         ),
+        #     )
+        # ]
+
         self.controls = [
             self.title,
             ft.Row(
-                controls=[
-                    self.new_task,
-                    self.add_btn,
-                ],
+                controls=[self.new_task, self.add_btn],
             ),
-            self.tasks_view,
+            self.tasks_view
         ]
 
-        # Afficher les tâches au démarrage
-        self.show_tasks()
+        self.show_cli_tasks()
 
     # --- Mise à jour du bouton selon le champ ---
     def task_changed(self, e):
@@ -120,15 +135,15 @@ class TodoApp(ft.Column):
             side=ft.BorderSide(1, self._DISABLED_COLOR),
             shape=ft.RoundedRectangleBorder(radius=8),
         )
-        self.show_tasks()
+        self.show_cli_tasks()
         await self.new_task.focus()
         self.update()
 
-    def show_tasks(self):
+    def show_cli_tasks(self):
         print(f"\n📋 Tâches ({len(self.tasks_view.controls)}):")
         for i, task in enumerate(self.tasks_view.controls, 1):
             label = getattr(task, "label", "?")
-            print(f"  {i}. {label}")
+            print(f"   {i}. {label}")
 
 
 def todo_list(page: ft.Page):

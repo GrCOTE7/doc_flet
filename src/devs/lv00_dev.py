@@ -1,18 +1,13 @@
 import flet as ft
 
-from .templates import title_template
+from .templates import rapidTemplate
+
 
 @ft.control
 class rapidTest(ft.Column):
-    # _PRIMLARY_COLOR = ft.Colors.GREEN_ACCENT_400
-    # _DISABLED_COLOR = ft.Colors.GREY_600
 
     def init(self):
-        self.title = title_template('RapidTest')
-
-        self.controls = [
-            self.title,
-        ]
+        self.controls = [rapidTemplate(detail_text="Ok21")]
 
 
 def dev(page: ft.Page):
@@ -22,10 +17,7 @@ def dev(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 
-    # create application instance
-    test = rapidTest()
-    # add application's root control to the page
-    page.add(test)
+    page.add(rapidTest())
 
 
 if __name__ == "__main__":

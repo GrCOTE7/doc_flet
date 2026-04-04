@@ -74,7 +74,11 @@ class Task(ft.Column):
 class TodoApp(ft.Column):
     # application's root control is a Column containing all other controls
     def init(self):
-        self.new_task = ft.TextField(hint_text="What needs to be done?", expand=True)
+        self.new_task = ft.TextField(
+            hint_text="What needs to be done in Todo App #6?",
+            expand=True,
+            text_style=ft.TextStyle(size=13),
+        )
         self.tasks = ft.Column()
         self.width = 600
         self.controls = [
@@ -103,9 +107,11 @@ class TodoApp(ft.Column):
 async def todo_list(page: ft.Page):
     print("\nTodo 6...")
     is_tty = sys.stdout.isatty()
-    delayed=120
+    delayed = 0  # ❌ 30
 
-    countdown_text = ft.Text(f"Todo 6 dans {delayed}s...", size=16, color=ft.Colors.ORANGE_300)
+    countdown_text = ft.Text(
+        f"Todo 6 dans {delayed}s...", size=16, color=ft.Colors.ORANGE_300
+    )
     page.add(countdown_text)
     page.update()
 
@@ -114,7 +120,7 @@ async def todo_list(page: ft.Page):
             # ANSI: clear current line, return to start, then write fresh content.
             sys.stdout.write(f"\x1b[2K\rTodo 6 dans {remaining:2d}s...")
             sys.stdout.flush()
-        countdown_text.value = f"Todo 6 dans {remaining:2d}\"..."
+        countdown_text.value = f'Todo 6 dans {remaining:2d}"...'
         page.update()
 
     for remaining in range(delayed, 0, -1):

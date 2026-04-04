@@ -21,24 +21,27 @@ async def main(page: ft.Page):
     # from devs.lv02_nbre_x import game as game
     # game(page)
 
-    # ❌  GC7 styled (colors and effects (disable +)
-    from examples.lv07_todo import todo_list as todo7
+    # Test fonctions asynchones
+    if 1:
+        from examples.lv07_todo import todo_list as todo7
+        from examples.lv06_todo_simple import todo_list as todo6
 
-    # await todo7(page)
+        async def fini():
+            print(
+                datetime.datetime.now().strftime("%H:%M:%S"), "> Todos 6 & 7 Ready.\n"
+            )
 
-    from examples.lv06_todo_simple import todo_list as todo6
+        async def async_fctns():
+            print(datetime.datetime.now().strftime("%H:%M:%S"), "> async_fctns")
+            # await asyncio.gather(todo6(page), todo7(page)) # ❌ to ar
+            await asyncio.gather(todo6(page))
+            await fini()
 
-    # await todo6(page)
+        await async_fctns()
 
-    async def fini():
-        print(datetime.datetime.now().strftime("%H:%M:%S"), "> Todos 6 & 7 Ready.\n")
+    from examples.lv08_todo import todo_list as todo
 
-    async def async_fctns():
-        print(datetime.datetime.now().strftime("%H:%M:%S"), "> async_fctns")
-        await asyncio.gather(todo6(page), todo7(page))
-        await fini()
-
-    await async_fctns()
+    todo(page)
 
     # from devs.lv02_blocs import blocs as dev
     # dev(page)

@@ -27,11 +27,13 @@ class Task(ft.Column):
                     controls=[
                         ft.IconButton(
                             icon=ft.Icons.CREATE_OUTLINED,
+                            icon_color=_PRIMLARY_COLOR,
                             tooltip="Edit To-Do",
                             on_click=self.edit_clicked,
                         ),
                         ft.IconButton(
                             ft.Icons.DELETE_OUTLINE,
+                            icon_color=ft.Colors.RED_ACCENT_200,
                             tooltip="Delete To-Do",
                             on_click=self.delete_clicked,
                         ),

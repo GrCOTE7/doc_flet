@@ -132,3 +132,7 @@ For more details on building Windows package, refer to the [Windows Packaging Gu
 |  +-------------------------------------------------+  |
 +-------------------------------------------------------+
 ```
+tip : 
+
+Pour uignorer un faux positif des hints flet
+# type: ignore 

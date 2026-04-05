@@ -28,7 +28,7 @@ async def main(page: ft.Page):
     # game(page)
 
     # Test fonctions asynchones
-    if 0:
+    if 1:
         from examples.lv07_todo_async import todo_list as todo7
         from examples.lv06_async_todo_simple import todo_list as todo6_async
 

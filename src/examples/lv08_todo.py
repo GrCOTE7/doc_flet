@@ -15,7 +15,10 @@ class Task(ft.Column):
 
     def init(self):
         self.display_task = ft.Checkbox(value=False, label=self.task_name)
-        self.edit_name = ft.TextField(expand=1)
+        self.edit_name = ft.TextField(
+            expand=1,
+            on_submit=self.save_clicked,
+        )
 
         self.display_view = ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -58,12 +61,13 @@ class Task(ft.Column):
         )
         self.controls = [self.display_view, self.edit_view]
 
-    def edit_clicked(self, e):
+    async def edit_clicked(self, e):
         # Checkbox.label peut être str | Control | None ; TextField.value attend str.
         self.edit_name.value = str(self.display_task.label or "")
         self.display_view.visible = False
         self.edit_view.visible = True
         self.update()
+        await self.edit_name.focus()
 
     def save_clicked(self, e):
         self.display_task.label = self.edit_name.value
@@ -129,15 +133,15 @@ class TodoApp(ft.Column):
             ),
         )
 
-        old_tasks = [
-            "Une première tâche",
-            "Une seconde tâche",
-        ]
         self.tasks = ft.Column(
             controls=[
                 Task(task_name=task_name, on_task_delete=self.task_delete)
-                for task_name in old_tasks
-            ]
+                for task_name in [
+                    "Une première tâche",
+                    "Une seconde tâche",
+                ]
+            ],
+            spacing=-5,
         )
 
         self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -167,7 +171,7 @@ class TodoApp(ft.Column):
         )
         self.add_btn.update()
 
-    def add_clicked(self, e):
+    async def add_clicked(self, e):
         task = Task(task_name=self.new_task.value, on_task_delete=self.task_delete)
         self.tasks.controls.append(task)
         self.tasks.update()
@@ -182,6 +186,7 @@ class TodoApp(ft.Column):
             shape=ft.RoundedRectangleBorder(radius=8),
         )
         self.show_cli_tasks()
+        await self.new_task.focus()
         self.update()
 
     def task_delete(self, task):
@@ -201,7 +206,7 @@ def todo_list(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     todo = TodoApp()
-    page.title = "To-Do App"
+    page.title = "To-Do App #8"
     page.update()
     page.add(todo)
 

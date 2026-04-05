@@ -45,8 +45,8 @@ async def main(page: ft.Page):
         await async_fctns()
         time.sleep(1)
     
-    from examples.lv06_todo_simple import todo_list as todo6
-    todo6(page)
+    # from examples.lv06_todo_simple import todo_list as todo6
+    # todo6(page)
     
     from examples.lv08_todo import todo_list as todo8
     todo8(page)

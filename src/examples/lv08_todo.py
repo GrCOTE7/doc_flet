@@ -189,8 +189,7 @@ class TodoApp(ft.Column):
     def show_cli_tasks(self):
         print(f"\n📋 Tâches ({len(self.tasks.controls)}):")
         for i, task in enumerate(self.tasks.controls, 1):
-            label = getattr(task, "label", "?")
-            print(f"   {i}. {label}")
+            print(f"   {i}. {getattr(task, 'task_name', '?')}")
 
 
 def todo_list(page: ft.Page):

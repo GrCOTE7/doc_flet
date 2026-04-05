@@ -28,7 +28,7 @@ async def main(page: ft.Page):
     # game(page)
 
     # Test fonctions asynchones
-    if 1:
+    if 0:
         from examples.lv07_todo_async import todo_list as todo7
         from examples.lv06_async_todo_simple import todo_list as todo6_async
 
@@ -48,8 +48,16 @@ async def main(page: ft.Page):
     # from examples.lv06_todo_simple import todo_list as todo6
     # todo6(page)
     
-    from examples.lv08_todo import todo_list as todo8
-    todo8(page)
+    # from examples.lv08_todo import todo_list as todo8
+    # todo8(page)
+    
+    from examples.lv09_todo_simple import todo9 as todo9
+    todo9(page)
+    
+    page.add(ft.Text('─'*49))
+    
+    from examples.lv09_todo import todo_list as todo9
+    todo9(page)
 
 
     # from devs.lv00_dev import dev as dev

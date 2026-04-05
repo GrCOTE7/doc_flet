@@ -91,7 +91,7 @@ class TodoApp(ft.Column):
             content=ft.Row(
                 controls=[
                     ft.Text(
-                        "GC7 Todo List",
+                        "GC7 Todo List #8",
                         weight=ft.FontWeight.BOLD,
                         color=self._PRIMLARY_COLOR,
                         size=24,
@@ -375,14 +375,13 @@ class TodoApp_ori(ft.Column):
 
 def todo_list(page: ft.Page):
     print("\nTodo...")
-    # await asyncio.sleep(1)
-
-    page.title = "To-Do App"
 
     page.bgcolor = "#202020"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     todo = TodoApp()
+    page.title = "To-Do App"
+    page.update()
     page.add(todo)
 
     def simu_saisie():

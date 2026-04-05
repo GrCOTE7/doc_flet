@@ -74,15 +74,18 @@ class Task(ft.Column):
 class TodoApp(ft.Column):
     # application's root control is a Column containing all other controls
     def init(self):
+        # self.width = 200
+
         self.new_task = ft.TextField(
             hint_text="What needs to be done in Todo App #6?",
             expand=True,
             text_style=ft.TextStyle(size=13),
         )
+
         self.tasks = ft.Column(
             controls=[Task(task_name="Example Task", on_task_delete=self.task_delete)]
         )
-        self.width = 600
+        
         self.controls = [
             ft.Row(
                 controls=[
@@ -108,16 +111,15 @@ class TodoApp(ft.Column):
 
 def todo_list(page: ft.Page):
     print("\nTodo 6...")
-    is_tty = sys.stdout.isatty()
 
     page.title = "To-Do App 6"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.update()
+    # page.update()
 
     app = TodoApp()
     page.add(app)
 
-    print("\nTodo 6 OK.\n")
+    print("Todo 6 OK.\n")
 
 
 if __name__ == "__main__":

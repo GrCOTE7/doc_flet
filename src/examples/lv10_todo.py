@@ -5,7 +5,7 @@ import flet as ft
 _PRIMLARY_COLOR = ft.Colors.GREEN_ACCENT_400
 _DISABLED_COLOR = ft.Colors.GREY_600
 
-
+# ❌ Set footer
 @ft.control
 class Task(ft.Column):
 
@@ -139,20 +139,6 @@ class TodoApp(ft.Column):
             ),
         )
 
-        self.tasks = ft.Column(
-            controls=[
-                Task(task_name=task_name, on_delete=self.task_delete)
-                for task_name in [
-                    "Une première tâche",
-                    "Une seconde tâche",
-                    "Une troisième tâche",
-                ]
-            ],
-            spacing=-5,
-        )
-
-        # self.spacing = 7
-
         self.filter = ft.TabBar(
             scrollable=False,
             tabs=[
@@ -169,24 +155,42 @@ class TodoApp(ft.Column):
             content=self.filter,
         )
 
+        self.tasks = ft.Column(
+            controls=[
+                Task(task_name=task_name, on_delete=self.task_delete)
+                for task_name in [
+                    "Une première tâche",
+                    "Une seconde tâche",
+                    "Une troisième tâche",
+                ]
+            ],
+            spacing=-5,
+        )
+
+        # self.spacing = 7
+
         self.show_cli_tasks()
 
-    def task_changed(self, e):
-        has_text = bool(self.new_task.value)
-        self.add_btn.disabled = not has_text
-        self.add_btn.mouse_cursor = (
-            ft.MouseCursor.CLICK if has_text else ft.MouseCursor.BASIC
-        )
-        self.add_btn.icon_color = _PRIMLARY_COLOR if has_text else _DISABLED_COLOR
-        self.add_btn.style = ft.ButtonStyle(
-            bgcolor=ft.Colors.BLACK,
-            side=ft.BorderSide(1, _PRIMLARY_COLOR if has_text else _DISABLED_COLOR),
-            shape=ft.RoundedRectangleBorder(radius=8),
-        )
-        self.add_btn.update()
+        self.controls = [
+            self.title,
+            ft.Row(
+                controls=[self.new_task, self.add_btn],
+            ),
+            ft.Column(
+                spacing=25,
+                controls=[
+                    self.filter_tabs,
+                    self.tasks,
+                ],
+            ),
+        ]
 
     async def add_clicked(self, e):
-        task = Task(task_name=self.new_task.value, on_delete=self.task_delete)
+        task = Task(
+            task_name=self.new_task.value,
+            on_status_change=self.task_status_change,
+            on_delete=self.task_delete,
+        )
         self.tasks.controls.append(task)
         self.tasks.update()
 
@@ -202,6 +206,23 @@ class TodoApp(ft.Column):
         self.show_cli_tasks()
         await self.new_task.focus()
         self.update()
+
+    def task_status_change(self):
+        self.update()
+
+    def task_changed(self, e):
+        has_text = bool(self.new_task.value)
+        self.add_btn.disabled = not has_text
+        self.add_btn.mouse_cursor = (
+            ft.MouseCursor.CLICK if has_text else ft.MouseCursor.BASIC
+        )
+        self.add_btn.icon_color = _PRIMLARY_COLOR if has_text else _DISABLED_COLOR
+        self.add_btn.style = ft.ButtonStyle(
+            bgcolor=ft.Colors.BLACK,
+            side=ft.BorderSide(1, _PRIMLARY_COLOR if has_text else _DISABLED_COLOR),
+            shape=ft.RoundedRectangleBorder(radius=8),
+        )
+        self.add_btn.update()
 
     def task_delete(self, task):
         self.tasks.controls.remove(task)
@@ -220,20 +241,6 @@ class TodoApp(ft.Column):
             )
             # if 'première' in str(getattr(task, "task_name", "")): task.visible=False
             # if isinstance(task, Task) and "première" in task.task_name: task.visible=False # La + PRO
-
-        self.controls = [
-            self.title,
-            ft.Row(
-                controls=[self.new_task, self.add_btn],
-            ),
-            ft.Column(
-                spacing=25,
-                controls=[
-                    self.filter_tabs,
-                    self.tasks,
-                ],
-            ),
-        ]
 
         # self.show_cli_tasks()
 

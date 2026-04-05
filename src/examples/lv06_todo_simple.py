@@ -1,9 +1,7 @@
 from dataclasses import field
 from typing import Callable
-import sys
 
 import flet as ft
-import asyncio
 
 
 @ft.control
@@ -72,20 +70,20 @@ class Task(ft.Column):
 
 @ft.control
 class TodoApp(ft.Column):
-    # application's root control is a Column containing all other controls
+
     def init(self):
-        # self.width = 200
 
         self.new_task = ft.TextField(
             hint_text="What needs to be done in Todo App #6?",
+            hint_style=ft.TextStyle(italic=True, color=ft.Colors.GREY_400, size=13),
             expand=True,
-            text_style=ft.TextStyle(size=13),
+            text_size=18,
         )
 
         self.tasks = ft.Column(
             controls=[Task(task_name="Example Task", on_task_delete=self.task_delete)]
         )
-        
+
         self.controls = [
             ft.Row(
                 controls=[

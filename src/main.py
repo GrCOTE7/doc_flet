@@ -29,7 +29,7 @@ async def main(page: ft.Page):
 
     # Test fonctions asynchones
     if 0:
-        from examples.lv07_todo import todo_list as todo7
+        from examples.lv07_todo_async import todo_list as todo7
         from examples.lv06_async_todo_simple import todo_list as todo6_async
 
         async def fini():
@@ -48,8 +48,8 @@ async def main(page: ft.Page):
     from examples.lv06_todo_simple import todo_list as todo6
     todo6(page)
     
-    # from examples.lv08_todo import todo_list as todo8
-    # todo8(page)
+    from examples.lv08_todo import todo_list as todo8
+    todo8(page)
 
 
     # from devs.lv00_dev import dev as dev

@@ -229,7 +229,7 @@ class TodoApp(ft.Column):
 
 async def todo_list(page: ft.Page):
     print("\nTodo 7...")
-    await asyncio.sleep(0)
+    await asyncio.sleep(3)
 
     page.title = "To-Do App 7"
 

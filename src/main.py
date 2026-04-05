@@ -22,9 +22,9 @@ async def main(page: ft.Page):
     # game(page)
 
     # Test fonctions asynchones
-    if 1:
+    if 0:
         from examples.lv07_todo import todo_list as todo7
-        from examples.lv06_todo_simple import todo_list as todo6
+        from examples.lv06_async_todo_simple import todo_list as todo6_async
 
         async def fini():
             print(
@@ -33,13 +33,15 @@ async def main(page: ft.Page):
 
         async def async_fctns():
             print(datetime.datetime.now().strftime("%H:%M:%S"), "> async_fctns")
-            # await asyncio.gather(todo6(page), todo7(page)) # ❌  default
-            await asyncio.gather(todo7(page), todo6(page))
-            # await asyncio.gather(todo6(page))
+            await asyncio.gather(todo6_async(page), todo7(page))
             await fini()
 
         await async_fctns()
-    time.sleep(1)
+        time.sleep(1)
+    
+    from examples.lv06_todo_simple import todo_list as todo6
+    todo6(page)
+    
     from examples.lv08_todo import todo_list as todo8
     todo8(page)
 

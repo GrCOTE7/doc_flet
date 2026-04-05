@@ -106,15 +106,43 @@ class TodoApp(ft.Column):
         self.update()
 
 
-def todo_list(page: ft.Page):
+async def todo_list(page: ft.Page):
     print("\nTodo 6...")
     is_tty = sys.stdout.isatty()
+    delayed = 15  # ❌ 30
+
+    countdown_text = ft.Text(
+        f"Todo 6 dans {delayed}s...", size=16, color=ft.Colors.ORANGE_300
+    )
+    page.add(countdown_text)
+    page.update()
+
+    def render_countdown(remaining: int):
+        if is_tty:
+            # ANSI: clear current line, return to start, then write fresh content.
+            sys.stdout.write(f"\x1b[2K\rTodo 6 dans {remaining:2d}s...")
+            sys.stdout.flush()
+        countdown_text.value = f'Todo 6 dans {remaining:2d}"...'
+        page.update()
+
+    for remaining in range(delayed, 0, -1):
+        render_countdown(remaining)
+        await asyncio.sleep(1)
+    render_countdown(0)
+    if is_tty:
+        print()
+
+    page.controls.remove(countdown_text)
+    page.update()
 
     page.title = "To-Do App 6"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 
+    # create application instance
     app = TodoApp()
+
+    # add application's root control to the page
     page.add(app)
 
     print("\nTodo 6 OK.\n")

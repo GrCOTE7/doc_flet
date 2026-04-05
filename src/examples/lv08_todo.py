@@ -10,7 +10,7 @@ class Task(ft.Column):
     on_task_delete: Callable[["Task"], None] = field(default=lambda task: None)
 
     def init(self):
-        self.display_task = ft.Checkbox(value=False, label=self.task_name) # size 14"
+        self.display_task = ft.Checkbox(value=False, label=self.task_name)  # size 14"
         self.edit_name = ft.TextField(expand=1)
         self.display_view = ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -87,7 +87,7 @@ class TodoApp(ft.Column):
             padding=ft.Padding.symmetric(vertical=4, horizontal=12),
             border=ft.Border.all(1, self._PRIMLARY_COLOR),
             bgcolor=ft.Colors.BLACK,
-            border_radius=ft.BorderRadius.all(12),
+            border_radius=ft.BorderRadius.all(10),
             content=ft.Row(
                 controls=[
                     ft.Text(
@@ -130,7 +130,7 @@ class TodoApp(ft.Column):
             style=ft.ButtonStyle(
                 bgcolor=ft.Colors.BLACK,
                 side=ft.BorderSide(1, self._DISABLED_COLOR),
-                shape=ft.RoundedRectangleBorder(radius=8),
+                shape=ft.RoundedRectangleBorder(radius=7),
             ),
         )
 
@@ -237,7 +237,7 @@ class TodoApp_ori(ft.Column):
             padding=ft.Padding.symmetric(vertical=4, horizontal=12),
             border=ft.Border.all(1, self._PRIMLARY_COLOR),
             bgcolor=ft.Colors.BLACK,
-            border_radius=ft.BorderRadius.all(12),
+            border_radius=ft.BorderRadius.all(7),
             content=ft.Row(
                 controls=[
                     ft.Text(
@@ -280,7 +280,7 @@ class TodoApp_ori(ft.Column):
             style=ft.ButtonStyle(
                 bgcolor=ft.Colors.BLACK,
                 side=ft.BorderSide(1, self._DISABLED_COLOR),
-                shape=ft.RoundedRectangleBorder(radius=8),
+                shape=ft.RoundedRectangleBorder(radius=7),
             ),
         )
 
@@ -379,7 +379,7 @@ def todo_list(page: ft.Page):
 
     page.title = "To-Do App"
 
-    page.bgcolor = "#333333"
+    page.bgcolor = "#202020"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     todo = TodoApp()

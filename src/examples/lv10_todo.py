@@ -145,6 +145,7 @@ class TodoApp(ft.Column):
                 for task_name in [
                     "Une première tâche",
                     "Une seconde tâche",
+                    "Une troisième tâche",
                 ]
             ],
             spacing=-5,
@@ -198,9 +199,6 @@ class TodoApp(ft.Column):
         )
         self.show_cli_tasks()
         await self.new_task.focus()
-        self.update()
-
-    def task_status_change(self):
         self.update()
 
     def task_delete(self, task):

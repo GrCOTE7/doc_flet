@@ -169,6 +169,8 @@ class TodoApp(ft.Column):
             content=self.filter,
         )
 
+        self.show_cli_tasks()
+
     def task_changed(self, e):
         has_text = bool(self.new_task.value)
         self.add_btn.disabled = not has_text
@@ -203,6 +205,7 @@ class TodoApp(ft.Column):
 
     def task_delete(self, task):
         self.tasks.controls.remove(task)
+        self.show_cli_tasks()
         self.update()
 
     def before_update(self):
@@ -232,19 +235,19 @@ class TodoApp(ft.Column):
             ),
         ]
 
-        self.show_cli_tasks()
+        # self.show_cli_tasks()
 
     def tabs_changed(self, e):
         self.update()
 
     def show_cli_tasks(self):
-        print(f"\n📋 Tâches ({len(self.tasks.controls)}):")
+        print(f"\n📋 Toutes les Tâches ({len(self.tasks.controls)}):")
         for i, task in enumerate(self.tasks.controls, 1):
             print(f"   {i}. {getattr(task, 'task_name', '?')}")
 
 
 def todo(page: ft.Page):
-    print("\nTodo...")
+    print("\nTodo Final...")
 
     page.bgcolor = "#202020"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER

@@ -98,7 +98,7 @@ class TodoApp(ft.Column):
             content=ft.Row(
                 controls=[
                     ft.Text(
-                        "GC7 Todo List #9",
+                        "Final To-Do App #10",
                         weight=ft.FontWeight.BOLD,
                         color=_PRIMLARY_COLOR,
                         size=24,
@@ -150,8 +150,7 @@ class TodoApp(ft.Column):
             spacing=-5,
         )
 
-        self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        self.spacing = 7
+        # self.spacing = 7
 
         self.filter = ft.TabBar(
             scrollable=False,
@@ -246,14 +245,14 @@ class TodoApp(ft.Column):
             print(f"   {i}. {getattr(task, 'task_name', '?')}")
 
 
-def todo_list(page: ft.Page):
+def todo(page: ft.Page):
     print("\nTodo...")
 
     page.bgcolor = "#202020"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     todo = TodoApp()
-    page.title = "To-Do App #9"
+    page.title = "Final To-Do App #10"
     page.update()
     page.add(todo)
 
@@ -271,4 +270,4 @@ def todo_list(page: ft.Page):
 
 if __name__ == "__main__":
 
-    ft.run(todo_list)
+    ft.run(todo)

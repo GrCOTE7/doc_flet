@@ -109,20 +109,24 @@ class TodoApp(ft.Column):
 async def todo_list(page: ft.Page):
     print("\nTodo 6...")
     is_tty = sys.stdout.isatty()
-    delayed = 15  # ❌ 30
+    delayed = 15
+
+    def countdown_message(remaining: int) -> str:
+        return f"Todo 6 Sync dans {remaining:2d}s..."
 
     countdown_text = ft.Text(
-        f"Todo 6 dans {delayed}s...", size=16, color=ft.Colors.ORANGE_300
+        countdown_message(delayed), size=16, color=ft.Colors.ORANGE_300
     )
     page.add(countdown_text)
     page.update()
 
     def render_countdown(remaining: int):
+        message = countdown_message(remaining)
         if is_tty:
             # ANSI: clear current line, return to start, then write fresh content.
-            sys.stdout.write(f"\x1b[2K\rTodo 6 dans {remaining:2d}s...")
+            sys.stdout.write(f"\x1b[2K\r{message}")
             sys.stdout.flush()
-        countdown_text.value = f'Todo 6 dans {remaining:2d}"...'
+        countdown_text.value = message
         page.update()
 
     for remaining in range(delayed, 0, -1):
@@ -135,7 +139,7 @@ async def todo_list(page: ft.Page):
     page.controls.remove(countdown_text)
     page.update()
 
-    page.title = "To-Do App 6"
+    page.title = "To-Do App 6 Sync"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.update()
 
@@ -145,7 +149,7 @@ async def todo_list(page: ft.Page):
     # add application's root control to the page
     page.add(app)
 
-    print("\nTodo 6 OK.\n")
+    print("\nTodo 6 Sync OK.\n")
 
 
 if __name__ == "__main__":

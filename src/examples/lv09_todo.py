@@ -221,7 +221,9 @@ class TodoApp(ft.Column):
                 or (status == "Active" and not task.completed)  # type: ignore
                 or (status == "Completed" and task.completed)  # type: ignore
             )
-
+            # if 'première' in str(getattr(task, "task_name", "")): task.visible=False 
+            # if isinstance(task, Task) and "première" in task.task_name: task.visible=False # La + PRO
+            
         self.controls = [
             self.title,
             ft.Row(

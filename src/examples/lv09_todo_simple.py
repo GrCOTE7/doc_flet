@@ -1,6 +1,5 @@
 from dataclasses import field
 from typing import Callable
-
 import flet as ft
 
 
@@ -81,8 +80,9 @@ class TodoApp(ft.Column):
     # application's root control is a Column containing all other controls
     def init(self):
         self.new_task = ft.TextField(hint_text="Whats needs to be done?", expand=True)
+        
         self.tasks = ft.Column()
-
+        
         self.filter = ft.TabBar(
             scrollable=False,
             tabs=[

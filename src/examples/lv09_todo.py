@@ -6,15 +6,18 @@ _PRIMLARY_COLOR = ft.Colors.GREEN_ACCENT_400
 _DISABLED_COLOR = ft.Colors.GREY_600
 
 
-# _WIDTH = INFINITE  # 350
 @ft.control
 class Task(ft.Column):
 
     task_name: str = ""
-    on_task_delete: Callable[["Task"], None] = field(default=lambda task: None)
+    on_status_change: Callable[[], None] = field(default=lambda: None)
+    on_delete: Callable[["Task"], None] = field(default=lambda task: None)
 
     def init(self):
-        self.display_task = ft.Checkbox(value=False, label=self.task_name)
+        self.completed = False
+        self.display_task = ft.Checkbox(
+            value=False, label=self.task_name, on_change=self.status_changed
+        )
         self.edit_name = ft.TextField(
             expand=1,
             on_submit=self.save_clicked,
@@ -62,8 +65,7 @@ class Task(ft.Column):
         self.controls = [self.display_view, self.edit_view]
 
     async def edit_clicked(self, e):
-        # Checkbox.label peut être str | Control | None ; TextField.value attend str.
-        self.edit_name.value = str(self.display_task.label or "")
+        self.edit_name.value = self.display_task.label  # type: ignore
         self.display_view.visible = False
         self.edit_view.visible = True
         self.update()
@@ -75,8 +77,12 @@ class Task(ft.Column):
         self.edit_view.visible = False
         self.update()
 
+    def status_changed(self, e):
+        self.completed = self.display_task.value
+        self.on_status_change()
+
     def delete_clicked(self, e):
-        self.on_task_delete(self)
+        self.on_delete(self)
 
 
 @ft.control
@@ -102,7 +108,7 @@ class TodoApp(ft.Column):
             ),
         )
 
-        self.new_task = ft.TextField(
+        self.new_task = ft.TextField(  # ❌ cf si tout y est utile
             text_size=18,
             hint_style=ft.TextStyle(italic=True, color=ft.Colors.GREY_400, size=14),
             color=ft.Colors.WHITE,
@@ -116,7 +122,7 @@ class TodoApp(ft.Column):
             autofocus=True,
         )
 
-        self.add_btn = ft.IconButton(
+        self.add_btn = ft.IconButton(  # ❌ cf si tout y est utile
             icon=ft.Icons.ADD,
             icon_color=_DISABLED_COLOR,
             icon_size=28,
@@ -135,7 +141,7 @@ class TodoApp(ft.Column):
 
         self.tasks = ft.Column(
             controls=[
-                Task(task_name=task_name, on_task_delete=self.task_delete)
+                Task(task_name=task_name, on_delete=self.task_delete)
                 for task_name in [
                     "Une première tâche",
                     "Une seconde tâche",
@@ -144,18 +150,25 @@ class TodoApp(ft.Column):
             spacing=-5,
         )
 
+        # ❌ cf si tout y est utile
         self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         self.spacing = 7
 
-        self.controls = [
-            self.title,
-            ft.Row(
-                controls=[self.new_task, self.add_btn],
-            ),
-            self.tasks,
-        ]
+        self.filter = ft.TabBar(
+            scrollable=False,
+            tabs=[
+                ft.Tab(label="All"),
+                ft.Tab(label="Active"),
+                ft.Tab(label="Completed"),
+            ],
+        )
 
-        self.show_cli_tasks()
+        self.filter_tabs = ft.Tabs(
+            length=3,
+            selected_index=0,
+            on_change=lambda e: self.update(),
+            content=self.filter,
+        )
 
     def task_changed(self, e):
         has_text = bool(self.new_task.value)
@@ -172,7 +185,7 @@ class TodoApp(ft.Column):
         self.add_btn.update()
 
     async def add_clicked(self, e):
-        task = Task(task_name=self.new_task.value, on_task_delete=self.task_delete)
+        task = Task(task_name=self.new_task.value, on_delete=self.task_delete)
         self.tasks.controls.append(task)
         self.tasks.update()
 
@@ -189,8 +202,43 @@ class TodoApp(ft.Column):
         await self.new_task.focus()
         self.update()
 
+    def task_status_change(self):
+        self.update()
+
     def task_delete(self, task):
         self.tasks.controls.remove(task)
+        self.update()
+
+    def before_update(self):
+        # active_tab = self.filter.tabs[self.filter_tabs.selected_index]
+        # status = getattr(active_tab, "label", "All")
+        status = self.filter.tabs[self.filter_tabs.selected_index].label  # type: ignore
+        # status = getattr(active_tab, "label", "All")
+        for task in self.tasks.controls:
+            # completed = bool(getattr(task, "Completed", False))
+            task.visible = (
+                status == "All"
+                or (status == "Active" and not task.completed)  # type: ignore
+                or (status == "Completed" and task.completed)  # type: ignore
+            )
+
+        self.controls = [
+            self.title,
+            ft.Row(
+                controls=[self.new_task, self.add_btn],
+            ),
+            ft.Column(
+                spacing=25,
+                controls=[
+                    self.filter_tabs,
+                    self.tasks,
+                ],
+            ),
+        ]
+
+        self.show_cli_tasks()
+
+    def tabs_changed(self, e):
         self.update()
 
     def show_cli_tasks(self):
@@ -213,7 +261,7 @@ def todo_list(page: ft.Page):
     def simu_saisie():
         print("\nSimu saisie...")
         todo.new_task.value = "Tâche simulée"
-        Task(task_name=todo.new_task.value, on_task_delete=todo.task_delete)
+        Task(task_name=todo.new_task.value, on_delete=todo.task_delete)
         todo.task_changed(None)  # Met à jour le bouton
         # todo.add_clicked(None)  # click btn !
 

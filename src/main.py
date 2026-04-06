@@ -9,8 +9,8 @@ async def main(page: ft.Page):
     # gc7(page, 'LIGHT')
     gc7(page)
     
-    from examples.lv00_matrice import main as go
-    go(page)
+    # from examples.lv00_matrice import main as go
+    # go(page)
 
     # from basis.scroll_example import main as scroll
     # scroll(page)
@@ -74,8 +74,8 @@ async def main(page: ft.Page):
     # from examples.lv12_todo_reactive import todo as reactivTodo
     # reactivTodo(page)
     
-    # * [/] from examples.lv20_chat import main
-    # main(page)
+    from examples.lv22_chat import main
+    main(page)
 
     # from devs.lv00_dev import dev as dev
     # dev(page)

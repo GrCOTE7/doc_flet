@@ -74,7 +74,7 @@ async def main(page: ft.Page):
     # from examples.lv12_todo_reactive import todo as reactivTodo
     # reactivTodo(page)
     
-    from examples.lv22_chat import main
+    from examples.lv23_chat import main
     main(page)
 
     # from devs.lv00_dev import dev as dev

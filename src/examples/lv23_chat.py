@@ -13,11 +13,15 @@ class Message:
 
 def main(page: ft.Page):
     page.bgcolor = "#333333"
-    title = ft.Text("Chat 23", size=18, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE)
+    title = ft.Text(
+        "Chat 23", size=18, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE
+    )
 
     chat = ft.Column()
 
-    new_message = ft.TextField(bgcolor="#111111", color=ft.Colors.WHITE, border_color="#777777")
+    new_message = ft.TextField(
+        bgcolor="#111111", color=ft.Colors.WHITE, border_color="#777777"
+    )
 
     def on_message(message: Message):
         if message.msg_type == "chat_message":
@@ -38,7 +42,7 @@ def main(page: ft.Page):
                 msg_type="chat_message",
             )
         )
-        print(new_message.value)
+        print(user_name.value, '→', new_message.value)
         new_message.value = ""
 
     def join_click(e):
@@ -46,17 +50,19 @@ def main(page: ft.Page):
         if not user_name.value:
             user_name.error = "Name can't be blank!"
         else:
+            msg = f"{user_name.value} has joined the chat."
             page.session.store.set("user_name", user_name.value)
             page.pop_dialog()
             page.pubsub.send_all(
                 Message(
                     user=user_name.value,
-                    text=f"{user_name.value} has joined the chat.",
+                    text=msg,
                     msg_type="login_message",
                 )
             )
+            print(msg)
 
-    user_name = ft.TextField(label="Enter your name", value="lionel")
+    user_name = ft.TextField(label="Enter your name", value="Lionel")
 
     page.show_dialog(
         ft.AlertDialog(
@@ -84,7 +90,6 @@ def main(page: ft.Page):
 
     # Simule le clic sur "Join chat" avec le champ deja rempli.
     join_click(None)
-    print(f"{user_name.value = }")
 
     async def simuMsgs():
 
@@ -101,7 +106,7 @@ def main(page: ft.Page):
         selected_messages = random.sample(messages, k=len(users))
 
         for user, text in zip(users, selected_messages):
-            await asyncio.sleep(random.randint(1, 3))
+            await asyncio.sleep(random.randint(2, 5))
             page.pubsub.send_all(
                 Message(
                     user=user,
@@ -109,6 +114,7 @@ def main(page: ft.Page):
                     msg_type="chat_message",
                 )
             )
+            print(user, "→", text)
 
         if not page.session.store.get("user_name"):
             join_click(None)
@@ -118,7 +124,7 @@ def main(page: ft.Page):
     page.add(
         title,
         chat,
-        ft.Row([new_message, ft.ElevatedButton("Send", on_click=send_click)]),
+        ft.Row([new_message, ft.Button("Send", on_click=send_click)]),
     )
 
 

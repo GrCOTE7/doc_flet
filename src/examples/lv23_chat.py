@@ -1,7 +1,6 @@
 import flet as ft
 from dataclasses import dataclass
-import asyncio
-import random
+import asyncio, random, time
 
 
 @dataclass
@@ -11,10 +10,59 @@ class Message:
     msg_type: str
 
 
+@ft.control
+class ChatMessage(ft.Row):
+    def __init__(self, message: Message):
+        super().__init__()
+        self.message = message
+        self.vertical_alignment = ft.CrossAxisAlignment.START
+        self.controls = [
+            ft.CircleAvatar(
+                content=ft.Text(self.get_initials(self.message.user)),
+                color=ft.Colors.WHITE,
+                bgcolor=self.get_avatar_color(self.message.user),
+            ),
+            ft.Column(
+                tight=True,
+                spacing=5,
+                controls=[
+                    ft.Text(self.message.user, weight=ft.FontWeight.BOLD),
+                    ft.Text(self.message.text, selectable=True),
+                ],
+            ),
+        ]
+
+    def get_initials(self, user_name: str):
+        if user_name:
+            return user_name[:1].capitalize()
+        else:
+            return "Unknown"  # or any default value you prefer
+
+    def get_avatar_color(self, user_name: str):
+        colors_lookup = [
+            ft.Colors.AMBER,
+            ft.Colors.BLUE,
+            ft.Colors.BROWN,
+            ft.Colors.CYAN,
+            ft.Colors.GREEN,
+            ft.Colors.INDIGO,
+            ft.Colors.LIME,
+            ft.Colors.ORANGE,
+            ft.Colors.PINK,
+            ft.Colors.PURPLE,
+            ft.Colors.RED,
+            ft.Colors.TEAL,
+            ft.Colors.YELLOW,
+        ]
+        return colors_lookup[hash(user_name) % len(colors_lookup)]
+
+
 def main(page: ft.Page):
+
     page.bgcolor = "#333333"
+    page.horizontal_alignment = ft.CrossAxisAlignment.STRETCH
     title = ft.Text(
-        "Chat 23", size=18, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE
+        "Flet Chat 23", size=18, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE
     )
 
     chat = ft.Column()
@@ -22,6 +70,16 @@ def main(page: ft.Page):
     new_message = ft.TextField(
         bgcolor="#111111", color=ft.Colors.WHITE, border_color="#777777"
     )
+    new_message.expand = True
+
+    # def on_message(message: Message):
+    #     if message.msg_type == "chat_message":
+    #         # chat.controls.append(ft.Text(f"{message.user}: {message.text}"))
+    #         m = ChatMessage(message)
+    #     elif message.msg_type == "login_message":
+    #         m = ft.Text(message.text, italic=True, color=ft.Colors.WHITE_54, size=14)
+    #     chat.controls.append(m)
+    #     page.update()
 
     def on_message(message: Message):
         if message.msg_type == "chat_message":
@@ -42,7 +100,7 @@ def main(page: ft.Page):
                 msg_type="chat_message",
             )
         )
-        print(user_name.value, '→', new_message.value)
+        print(user_name.value, "→", new_message.value)
         new_message.value = ""
 
     def join_click(e):
@@ -124,8 +182,48 @@ def main(page: ft.Page):
     page.add(
         title,
         chat,
-        ft.Row([new_message, ft.Button("Send", on_click=send_click)]),
+        ft.Container(
+            margin=ft.margin.only(top=5, bottom=5),
+            padding=ft.padding.only(top=6),
+            content=ft.Row(
+                [
+                    new_message,
+                    ft.Button(
+                        content="Send",
+                        height=46,
+                        on_click=send_click,
+                        style=ft.ButtonStyle(
+                            shape=ft.RoundedRectangleBorder(radius=4),
+                        ),
+                    ),
+                ]
+            ),
+        ),
     )
+
+    # # Add everything to the page
+    # page.add(
+    #     ft.Container(
+    #         content=chat,
+    #         border=ft.Border.all(1, ft.Colors.OUTLINE),
+    #         border_radius=5,
+    #         padding=10,
+    #         expand=True,
+    #     ),
+    #     ft.Row(
+    #         controls=[
+    #             new_message,
+    #             ft.IconButton(
+    #                 icon=ft.Icons.SEND_ROUNDED,
+    #                 tooltip="Send message",
+    #                 on_click=send_message_click,
+    #             ),
+    #         ]
+    #     ),
+    # )
+
+    # time.sleep(15)
+    # print(hash("Lionel") % 13)  # → BLUE ❌ Vérif
 
 
 if __name__ == "__main__":
